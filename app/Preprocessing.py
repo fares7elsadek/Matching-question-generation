@@ -9,8 +9,9 @@ from flashtext import KeywordProcessor
 
 
 class TextPreprocessing():
-    def __init__(self,text):
+    def __init__(self,text,num_words=10):
         self.text = text
+        self.num_words = num_words
     
     def tokenize_sentences(self):
         sentences = sent_tokenize(self.text)
@@ -39,7 +40,7 @@ class TextPreprocessing():
             out = []
             traceback.print_exc()
 
-        return out
+        return out[:self.num_words]
     
 
     def get_sentences_for_keyword(self):

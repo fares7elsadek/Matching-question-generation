@@ -3,17 +3,16 @@ import random
 from prettytable import PrettyTable
 from IPython.display import Markdown, display
 
-text = """Process scheduling is a fundamental concept in operating systems that ensures efficient utilization of the CPU by managing the execution of multiple
-processes. In a multitasking environment, the CPU must allocate its time among various processes, balancing responsiveness, throughput, and fairness.
-The operating system achieves this through a scheduler, which determines the order in which processes are executed based on predefined algorithms.
-There are three primary types of process schedulers: Long-term scheduler, Short-term scheduler, and Medium-term scheduler. The long-term scheduler
-selects processes from the job queue and loads them into the ready queue, controlling the degree of multiprogramming. The short-term scheduler, also
-known as the CPU scheduler, decides which process gets the CPU next and for how long. Lastly, the medium-term scheduler temporarily removes processes
-from memory to reduce the load and improve system performance, a process known as swapping.  Scheduling algorithms, such as First-Come, First-Served
-(FCFS), Shortest Job Next (SJN), Round Robin (RR), and Priority Scheduling, define how processes are prioritized. For instance, Round Robin ensures
-fairness by allocating a fixed time slice to each process, while Priority Scheduling executes processes based on their assigned priority.  Efficient
-process scheduling reduces CPU idle time, minimizes waiting time, and ensures that high-priority tasks are completed promptly. It plays a crucial role
-in maintaining system stability and ensuring optimal performance across diverse computing environments."""
+text = """ Once upon a time, there lived a lion in the dense Amazon rainforest. While he was sleeping by resting his big head on his paws, a tiny little mouse
+unexpectedly crossed by and ran across the lion’s nose in haste. This woke up the lion and he laid his huge paw angrily on the tiny mouse to kill her.
+The poor mouse begged the lion to spare her this time and she would pay him back on some other day. Hearing this, the lion was amused and wondered how
+could such a tiny creature ever help him. But he was in a good mood and in his generosity he finally let the mouse go.  A few days later, a hunter set
+a trap for the lion while the big animal was stalking for prey in the forest. Caught in the toils of a hunter’s net, the lion found it difficult to
+free himself and roared loudly in anger.  As the mouse was passing by, she heard the roar and found the lion struggling hard to free himself from the
+hunter’s net. The little creature quickly ran towards the lion’s trap that bound him and she gnawed the net with her sharp teeth until the net tore
+apart. Slowly she made a big hole in the net and soon the lion was able to free himself from the hunter’s trap.  The lion thanked the little mouse for
+her help and the mouse reminded him that she had finally repaid the lion for sparing her life before. Thereafter, the lion and the mouse became good
+friends and lived happily in the forest."""
 
 
 
@@ -22,7 +21,7 @@ def printmd(string):
 
 
 
-model = MatchingQuestions(text)
+model = MatchingQuestions(text,8)
 keywordBestSense = model.get_matching_questions()
 
 

@@ -2,8 +2,10 @@ import nltk
 nltk.download('wordnet')
 nltk.download('omw-1.4')
 from tqdm import tqdm
+from collections import namedtuple
 
-
+GlossSelectionRecord = namedtuple("GlossSelectionRecord", ["guid", "sentence", "sense_keys", "glosses", "targets"])
+BertInput = namedtuple("BertInput", ["input_ids", "input_mask", "segment_ids", "label_id"])
 
 
 def _create_features_from_records(records, max_seq_length, tokenizer, cls_token_at_end=False, pad_on_left=False,

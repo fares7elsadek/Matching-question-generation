@@ -30,16 +30,16 @@ class BertWSD(BertPreTrainedModel):
 
 
 class MatchingQuestions():
-    def __init__(self,text):
+    def __init__(self,text,num_words=10):
         self.text = text
-        self.model_dir = ""
+        self.model_dir = "app/Model/BERT-WSD"
         self.model = BertWSD.from_pretrained(self.model_dir)
         self.tokenizer = BertTokenizer.from_pretrained(self.model_dir)
         self.tokenizer.added_tokens_encoder['[TGT]'] = 100
         if '[TGT]' not in self.tokenizer.additional_special_tokens:
             self.tokenizer.add_special_tokens({'additional_special_tokens': ['[TGT]']})
         self.model.resize_token_embeddings(len(self.tokenizer))
-        self.textPreprocessing = TextPreprocessing(text)
+        self.textPreprocessing = TextPreprocessing(text,num_words)
         self.mapping_keywords = self.textPreprocessing.get_sentences_for_keyword()
         self.model.to(device)
         self.model.eval()
@@ -100,22 +100,27 @@ class MatchingQuestions():
         keyword_best_sense = {}
         for keyword in self.mapping_keywords:
             try:
-                identified_synsets=self.get_synsets_for_word(keyword)
+                identified_synsets = self.get_synsets_for_word(keyword)
             except:
                 continue
-           
+    
             top_3_sentences = self.mapping_keywords[keyword][:3]
-            best_senses=[]
+            best_senses = []
             for sent in top_3_sentences:
                 insensitive_keyword = re.compile(re.escape(keyword), re.IGNORECASE)
-                modified_sentence = insensitive_keyword.sub(" [TGT] "+keyword+" [TGT] ", sent,count=1)
+                modified_sentence = insensitive_keyword.sub(" [TGT] " + keyword + " [TGT] ", sent, count=1)
                 modified_sentence = " ".join(modified_sentence.split())
-                print ("modified sentence ",modified_sentence)
                 best_sense = self.get_sense(modified_sentence)
-                best_senses.append(best_sense)
-            best_sense = mode(best_senses)
-            print ("Best sense: ",best_sense)
-            defn = best_sense.definition()
-            print (defn)
-            keyword_best_sense [keyword] = defn
+                if best_sense is not None:
+                    best_senses.append(best_sense)
+    
+            if best_senses:
+                try:
+                    best_sense = mode(best_senses)
+                    defn = best_sense.definition()
+                    keyword_best_sense[keyword] = defn
+                except statistics.StatisticsError:
+                    # Skip keyword if no dominant sense is found
+                    continue
+    
         return keyword_best_sense

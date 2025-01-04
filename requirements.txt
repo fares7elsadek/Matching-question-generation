@@ -2,3 +2,4 @@ flashtext
 git+https://github.com/boudinfl/pke.git
 transformers
 sentencepiece
+prettytable
